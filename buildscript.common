@@ -1,0 +1,35 @@
+#!/bin/bash -ex
+
+MAINDIR=buildtmp/${OXPNAME}_$VERSION
+OXPDIR=buildtmp/${OXPNAME}_$VERSION/${OXPNAME}_$VERSION.oxp
+TESTDIR=~/.Oolite/AddOns/${OXPNAME}.oxp
+TESTFILE=~/.Oolite/AddOns/${OXPNAME}.oxz
+DISTFILE=${OXPNAME}_$VERSION.zip
+OXZFILE=${OXPNAME}_$VERSION.oxz
+YEAR=`date +%Y`
+
+rm -f $DISTFILE
+rm -f $OXZFILE
+rm -rf buildtmp
+mkdir -p buildtmp
+sed -e "s/VERSION/$VERSION/" < scriptheader.js | sed -e "s/YEAR/2011-$YEAR/" > buildtmp/scriptheader.js
+mkdir -p $MAINDIR
+mkdir -p $OXPDIR
+cp readme.txt $MAINDIR
+cp License.txt $MAINDIR
+cp -r oxp/* $OXPDIR
+if [ -f oxp/manifest.plist ] ; then
+	sed -e "s/VERSION/$VERSION/" < oxp/manifest.plist > $OXPDIR/manifest.plist
+#	cp $OXPDIR/manifest.plist ./manifest.$VERSION.plist
+fi
+find $MAINDIR -name \*~ -delete
+if [ -d $OXPDIR/Scripts ] ; then
+	find $OXPDIR/Scripts -name \*.js -exec ./buildjs.sh '{}' ';'
+fi
+cd buildtmp
+zip -9rq ../$DISTFILE ${OXPNAME}_$VERSION
+cd ../$OXPDIR
+zip -9rq ../../../$OXZFILE *
+cd ../../..
+rm -rf $TESTDIR $TESTFILE
+cp $OXZFILE $TESTFILE
