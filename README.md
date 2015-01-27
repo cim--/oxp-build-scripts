@@ -16,6 +16,8 @@ them, as they've made things much easier for me. Advantages:
 
 * Automatically builds well-packaged OXPs and OXZs.
 
+* Automatically runs the OXP verifier (with a little bit of work)
+
 They work with the Linux install locations; they will need some
 modification to work on Windows or Mac.
 
@@ -47,6 +49,12 @@ release the majority of your OXPs with.
 them in `template/oxp`. While you will want to include a
 `manifest.plist`, it's probably easier to build that using the
 manifest editor on the Oolite website.
+
+4) Optional, but strongly recommended: edit the last line of
+`buildscript.common` to point to your install of the OXP Developer
+(aka test) build of Oolite. This will enable OXP verification which
+will pick up on some of the more obvious syntax errors without having
+to start the full Oolite and poke through the Latest.log.
 
 ### To make a new OXP
 
@@ -98,3 +106,8 @@ go to step 3 above.
 ### Advanced use
 
 For Rescue Stations OXP, when I was maintaining that, I had a second script that built the `shipdata.plist` (and its massive list of `like_ship` entries to allow OXP ships to be used if installed) from a bunch of templates. If you have something like that, edit `buildscript.sh` to put it just before the call to `../buildscript.common`
+
+OXP verification is currently a lot more comprehensive in the 1.81
+nightly builds than in the 1.80 release. You can install a nightly
+build, point the OXP verifier line at that executable, and play+test
+OXPs on 1.80 as before without trouble.

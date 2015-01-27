@@ -33,3 +33,6 @@ zip -9rq ../../../$OXZFILE *
 cd ../../..
 rm -rf $TESTDIR $TESTFILE
 cp $OXZFILE $TESTFILE
+# Change the path below and uncomment the line to enable OXP verification
+# (strongly recommended!)
+# ~/path/to/oolite/oolite --verify-oxp $OXPDIR
